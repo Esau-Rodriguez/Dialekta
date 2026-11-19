@@ -1,0 +1,4 @@
+@@ -222,2 +222,3 @@
+         state.tags = item.vocabulary ? item.vocabulary.split(/[·,]/).map(tag => tag.trim()).filter(Boolean).slice(0, 12) : [...defaults.tags];
++        state.position = Number.isInteger(item.curriculumPosition) ? item.curriculumPosition : Number(/^seed-(\d+)$/.exec(item.id)?.[1]) || 1;
+       }

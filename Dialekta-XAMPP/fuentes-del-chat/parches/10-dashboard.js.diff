@@ -1,0 +1,4 @@
+@@ -337,2 +337,3 @@
+         title: data.titleEs.trim(), level: existing?.level || 'A1',
++        nativeTitle: data.titleNative.trim().slice(0, 100), curriculumPosition: data.position,
+         description: data.summary.trim(), vocabulary: data.tags.join(' · ').slice(0, 120),

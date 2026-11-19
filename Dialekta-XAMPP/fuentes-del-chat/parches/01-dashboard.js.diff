@@ -1,0 +1,46 @@
+@@ -9,10 +9,12 @@
+   let preferences = {};
+-  try {
+-    session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY) || 'null');
+-    if (!session || !/^[^\s@]+@dialekta\.edu\.mx$/i.test(session.email)) {
+-      window.location.replace('index.html');
+-      return;
+-    }
+-    try { preferences = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') || {}; } catch { /* Keep default preferences. */ }
+-  } catch {
++  for (const storageName of ['sessionStorage', 'localStorage']) {
++    try {
++      const candidate = JSON.parse(window[storageName].getItem(SESSION_KEY) || 'null');
++      if (candidate && /^[^\s@]+@dialekta\.edu\.mx$/i.test(candidate.email || '') && candidate.createdAt) {
++        session = candidate;
++        break;
++      }
++    } catch { /* Try the other store when one is unavailable or invalid. */ }
++  }
++  if (!session) {
+     window.location.replace('index.html');
+@@ -20,2 +22,3 @@
+   }
++  try { preferences = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') || {}; } catch { /* Keep default preferences. */ }
+ 
+@@ -103,3 +106,3 @@
+   function applyProfile() {
+-    const name = typeof preferences.displayName === 'string' && preferences.displayName.trim() ? preferences.displayName : session.name;
++    const name = typeof preferences.displayName === 'string' && preferences.displayName.trim() ? preferences.displayName : session.name || 'Mtro. Xicoténcatl Morales';
+     $('.profile strong').textContent = name;
+@@ -133,2 +136,3 @@
+     $('#sidebar').classList.remove('open');
++    $('#sidebar').inert = window.matchMedia('(max-width:700px)').matches;
+     $('.sidebar-backdrop').hidden = true;
+@@ -138,2 +142,3 @@
+     currentView = views.includes(name) ? name : 'dashboard';
++    if (currentView === 'search' && !$('#search').value.trim()) currentView = 'dashboard';
+     views.forEach(view => { $(`#view-${view}`).hidden = view !== currentView; });
+@@ -160,2 +165,3 @@
+     $('#sidebar').classList.toggle('open', open);
++    $('#sidebar').inert = !open;
+     $('.sidebar-backdrop').hidden = !open;
+@@ -165,3 +171,3 @@
+   document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeSidebar(); $('#notifications').hidden = true; $('#notifications-button').setAttribute('aria-expanded', 'false'); } });
+-  window.matchMedia('(min-width:701px)').addEventListener('change', event => { if (event.matches) closeSidebar(); });
++  window.matchMedia('(min-width:701px)').addEventListener('change', () => closeSidebar());

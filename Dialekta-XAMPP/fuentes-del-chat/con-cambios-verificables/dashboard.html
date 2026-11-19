@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1e4033">
+  <title>Dashboard · Dialekta</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="dashboard.js" defer></script>
+</head>
+<body>
+  <svg class="symbols" aria-hidden="true"><defs>
+    <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7h6l2-3h9v15H3Z"/><path d="M7 4H3v3M7 10v9"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5C9 3 5 3 2 4v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-3-1-7-1-10 1v15M16 8h3m-3 4h3M5 8h3m-3 4h3"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4M16 4a3 3 0 0 1 0 6m3 11v-4c0-3-1-5-3-6M3 21h12"/></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24"><path d="m9 15-3-3c4-8 10-9 15-9 0 5-1 11-9 15ZM6 12H2l4-6h4m2 12v4l6-4v-4M6 17l-3 4 4-2"/><circle cx="16" cy="8" r="2"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="m10 2 4 0 1 3 3 1 3 3-2 3 1 3-3 3-3-1-2 3-4-1-1-3-3-1-1-4 2-2V6l3-2Z"/><circle cx="12" cy="11" r="3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M5 17h14l-2-4V9a5 5 0 0 0-10 0v4ZM10 21h4M12 2v2"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3M5 21h14"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M11 4H4v16h7m3-13 5 5-5 5m-5-5h13"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 3 8-10m-6 0h6v6"/></symbol>
+    <symbol id="i-fire" viewBox="0 0 24 24"><path d="M13 2c1 7 7 7 7 13a8 8 0 0 1-16 0c0-4 3-7 5-9 0 4 1 5 2 6 3-3 3-6 2-10Z"/><path d="M10 15c-4 6 6 6 4 0l-2 2Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6Z"/><path d="m7 12 3 3 7-7"/></symbol>
+    <symbol id="i-audio" viewBox="0 0 24 24"><path d="M4 10v6m4-9v12m4-16v18m4-14v12m4-9v6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M5 19 19 5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></symbol>
+  </defs></svg>
+
+  <button class="sidebar-backdrop" aria-label="Cerrar menú" hidden></button>
+  <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <a class="brand" href="#dashboard" aria-label="Dialekta, ir al dashboard"><img src="logo.svg" alt="" width="35" height="35"><span><strong>Dialekta</strong><small>ADMIN TUTUNAKÚ</small></span></a>
+    <div class="nav-area"><p class="nav-caption">ADMINISTRACIÓN</p>
+      <nav>
+        <a href="#dashboard" data-view="dashboard" class="nav-link active" aria-current="page"><svg><use href="#i-dashboard"/></svg>Dashboard</a>
+        <a href="#modulos" data-view="modulos" class="nav-link"><svg><use href="#i-folder"/></svg>Gestión de Módulos</a>
+        <a href="#lecciones" data-view="lecciones" class="nav-link"><svg><use href="#i-book"/></svg>Creador de Lecciones</a>
+        <a href="#usuarios" data-view="usuarios" class="nav-link"><svg><use href="#i-users"/></svg>Gestión de Usuarios</a>
+        <a href="#contenido" data-view="contenido" class="nav-link"><svg><use href="#i-rocket"/></svg>Publicación &amp; Contenido</a>
+        <a href="#configuracion" data-view="configuracion" class="nav-link"><svg><use href="#i-settings"/></svg>Configuración</a>
+      </nav>
+    </div>
+    <div class="sidebar-bottom"><button class="logout" id="logout"><svg><use href="#i-logout"/></svg>Cerrar sesión</button></div>
+  </aside>
+
+  <div class="workspace">
+    <header class="topbar">
+      <button class="icon-button mobile-menu" id="mobile-menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="sidebar"><svg><use href="#i-menu"/></svg></button>
+      <div class="search-and-notifications">
+        <label class="search-box"><svg><use href="#i-search"/></svg><input id="search" type="search" placeholder="Buscar módulos, lecciones, vocabulario o usuarios…" aria-label="Buscar módulos, lecciones, vocabulario o usuarios" autocomplete="off"></label>
+        <div class="notification-wrap">
+          <button class="notification icon-button" id="notifications-button" aria-label="Notificaciones, 3 sin leer" aria-expanded="false" aria-controls="notifications"><svg><use href="#i-bell"/></svg><span id="notification-count">3</span></button>
+          <section class="notification-panel" id="notifications" aria-label="Notificaciones" hidden>
+            <div class="panel-heading"><strong>Notificaciones</strong><button class="text-button" id="read-notifications">Marcar leídas</button></div>
+            <ul><li><span class="notification-dot"></span><div><strong>Nuevas escuelas integradas</strong><p>24 escuelas se unen al programa piloto.</p><small>Hace 15 minutos</small></div></li><li><span class="notification-dot"></span><div><strong>Lecciones listas para revisión</strong><p>22 lecciones esperan validación lingüística.</p><small>Hace 1 hora</small></div></li><li><span class="notification-dot"></span><div><strong>Bienvenido a Dialekta</strong><p>Consulta las métricas de tu comunidad.</p><small>Hoy</small></div></li></ul>
+          </section>
+        </div>
+      </div>
+      <button class="profile" id="profile-button" aria-label="Ver perfil de administrador"><span><strong>Mtro. Xicoténcatl Morales</strong><small>Súper Administrador Lingüístico</small></span><span class="profile-avatar"><svg><use href="#i-user"/></svg></span></button>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section id="view-dashboard" class="view" aria-labelledby="dashboard-title">
+        <div class="intro panel"><div class="intro-top"><span class="core-badge">DIALEKTA CORE · TUTUNAKÚ V2.4</span><span class="sync"><i></i>Sincronizado en tiempo real</span></div><h1 id="dashboard-title">Resumen Ejecutivo y Métricas de la Plataforma</h1><p>Monitoreo de preservación lingüística, flujo de estudiantes y actividad<br class="wide-break"> docente en la comunidad Totonaca.</p></div>
+
+        <div class="metrics" aria-label="Métricas de la plataforma">
+          <article class="metric panel"><div class="metric-top"><span class="metric-icon coral"><svg><use href="#i-users"/></svg></span><span class="badge mint"><svg><use href="#i-trend"/></svg>+12.4%</span></div><div class="metric-value">14,820</div><h2>Total de Usuarios<br>Registrados</h2><div class="metric-detail"><span>Sierra Norte y Papantla</span><strong class="red">1,620<br>este mes</strong></div></article>
+          <article class="metric panel"><div class="metric-top"><span class="metric-icon pink"><svg><use href="#i-fire"/></svg></span><span class="badge peach"><svg><use href="#i-users"/></svg><span>88%<br>Retención</span></span></div><div class="metric-value red">3,450</div><h2>Usuarios Activos<br>Diarios (DAU)</h2><div class="metric-detail"><span>Sierra Norte y Tajín</span><strong>Pico:<br>18:00 – 21:00</strong></div></article>
+          <article class="metric panel"><div class="metric-top"><span class="metric-icon amber"><svg><use href="#i-folder"/></svg></span><span class="badge cream">4 en<br>borrador</span></div><div class="metric-value">18</div><h2>Módulos Totales</h2><div class="metric-detail"><span>14 publicados<br>y validados</span><strong class="ochre">77.7%<br>activos</strong></div></article>
+          <article class="metric panel"><div class="metric-top"><span class="metric-icon amber"><svg><use href="#i-book"/></svg></span><span class="badge peach">Audio<br>nativo</span></div><div class="metric-value">164</div><h2>Lecciones Totales</h2><div class="metric-detail"><span>Ejercicios<br>interactivos</span><strong>542<br>preguntas</strong></div></article>
+          <article class="metric panel"><div class="metric-top"><span class="metric-icon mint"><svg><use href="#i-check"/></svg></span><span class="badge sage"><span><strong>86.5%</strong><br>Aprobación</span></span></div><div class="metric-value red">142</div><h2>Lecciones<br>Publicadas</h2><div class="metric-detail"><span>App móvil<br>v2.4</span><strong class="green">22 en<br>revisión</strong></div></article>
+        </div>
+
+        <section class="campaign" aria-labelledby="campaign-title"><div class="campaign-copy"><span class="campaign-badge">PATRIMONIO VIVO VERACRUZ–PUEBLA</span><h2 id="campaign-title">Campaña de Revitalización en Escuelas Bilingües</h2><p>Se han integrado 24 nuevas escuelas primarias en Zozocolco y Papantla al programa<br class="wide-break"> piloto Dialekta Kids con ejercicios gamificados de reconocimiento sonoro.</p></div><div class="campaign-action"><div class="community-avatars" aria-hidden="true"><span>MT</span><span>CR</span><span>JH</span></div><button id="alliances">Ver Alianzas Escolares</button></div></section>
+
+        <section class="recent-users panel" aria-labelledby="recent-title"><div class="section-heading"><h2 id="recent-title"><svg><use href="#i-users"/></svg>Últimos Usuarios Registrados</h2><a href="#usuarios" class="text-button">Ver todos</a></div><p class="section-description">Estudiantes recién incorporados desde comunidades<br class="wide-break"> y centros educativos.</p><div class="table-scroll"><table><thead><tr><th>USUARIO</th><th>REGIÓN /<br>COMUNIDAD</th><th>REGISTRO</th><th>ESTATUS</th></tr></thead><tbody id="recent-users-body"></tbody></table></div></section>
+      </section>
+
+      <section id="view-modulos" class="view" hidden aria-labelledby="modules-title"><div class="page-heading"><div><span class="eyebrow">CONTENIDO EDUCATIVO</span><h1 id="modules-title">Gestión de Módulos</h1><p>Aprendizaje que conecta con nuestras raíces.</p></div><label class="filter-label">Mostrar<select id="module-filter"><option value="all">Todos los módulos</option><option value="Publicado">Publicados</option><option value="Borrador">Borradores</option></select></label></div><div id="modules-grid" class="resource-grid"></div></section>
+      <section id="view-lecciones" class="view" hidden aria-labelledby="lessons-title"><div class="page-heading"><div><span class="eyebrow">APRENDIZAJE EN LENGUA VIVA</span><h1 id="lessons-title">Creador de Lecciones</h1><p>Explora las lecciones y sus recursos de aprendizaje.</p></div></div><div id="lessons-grid" class="resource-grid"></div></section>
+      <section id="view-usuarios" class="view" hidden aria-labelledby="users-title"><div class="page-heading"><div><span class="eyebrow">NUESTRA COMUNIDAD</span><h1 id="users-title">Gestión de Usuarios</h1><p>Estudiantes y docentes del programa Dialekta.</p></div><span class="pill">Datos de demostración</span></div><div class="panel full-table"><div class="section-heading"><h2>Usuarios de la comunidad</h2><label class="filter-label">Estatus<select id="user-filter"><option value="all">Todos</option><option value="Activo">Activos</option><option value="Pendiente">Pendientes</option></select></label></div><div class="table-scroll"><table><thead><tr><th>USUARIO</th><th>REGIÓN / COMUNIDAD</th><th>REGISTRO</th><th>ESTATUS</th></tr></thead><tbody id="all-users-body"></tbody></table></div></div></section>
+      <section id="view-contenido" class="view" hidden aria-labelledby="content-title"><div class="page-heading"><div><span class="eyebrow">PRESERVACIÓN Y DIFUSIÓN</span><h1 id="content-title">Publicación &amp; Contenido</h1><p>Revisa el material antes de compartirlo con la comunidad.</p></div></div><div class="publication-summary"><div class="panel"><strong>142</strong><span>Lecciones publicadas</span></div><div class="panel"><strong>22</strong><span>En revisión lingüística</span></div><div class="panel"><strong>86.5%</strong><span>Índice de aprobación</span></div></div><div class="panel content-review"><div class="section-heading"><h2>Material en revisión</h2><span class="pill">Vista de demostración</span></div><div id="review-list"></div></div></section>
+      <section id="view-configuracion" class="view" hidden aria-labelledby="settings-title"><div class="page-heading"><div><span class="eyebrow">TU ESPACIO DE TRABAJO</span><h1 id="settings-title">Configuración</h1><p>Personaliza las preferencias de este navegador.</p></div></div><form id="settings-form" class="panel settings-form"><h2>Preferencias del administrador</h2><label>Nombre para mostrar<input id="display-name" name="displayName" required maxlength="80" value="Mtro. Xicoténcatl Morales"></label><label>Correo institucional<input id="account-email" type="email" readonly></label><label class="check-label"><input type="checkbox" id="digest" checked>Mostrar recordatorios de revisión al abrir el panel</label><p class="muted">Las preferencias se guardan únicamente en este navegador.</p><button class="primary-button" type="submit">Guardar preferencias</button><p id="settings-feedback" role="status" hidden></p></form></section>
+      <section id="view-search" class="view" hidden aria-labelledby="search-title"><div class="page-heading"><div><span class="eyebrow">EXPLORA DIALEKTA</span><h1 id="search-title">Resultados de búsqueda</h1><p id="search-description"></p></div></div><div id="search-results" class="resource-grid"></div></section>
+    </main>
+  </div>
+
+  <dialog id="details-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><span class="eyebrow" id="dialog-eyebrow">DIALEKTA · COMUNIDAD</span><button id="close-dialog" class="icon-button" aria-label="Cerrar ventana"><svg><use href="#i-close"/></svg></button></div><h2 id="dialog-title"></h2><div id="dialog-body"></div><form method="dialog"><button class="primary-button">Entendido</button></form></dialog>
+  <div class="toast" role="status" id="toast" hidden></div>
+  <noscript><div class="noscript">Activa JavaScript para navegar por el panel de demostración.</div></noscript>
+</body>
+</html>

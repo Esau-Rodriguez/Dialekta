@@ -1,0 +1,13 @@
+@@ -48,2 +48,3 @@
+ .builder-position-row>button:hover { background: #f7d3c1; }
++.builder-position-row>button:disabled { opacity: .45; cursor: default; }
+ #builder-summary { height: 4.2rem; }
+@@ -233 +234,8 @@
+ .builder-step.is-active strong { font-weight: 600; color: #45271b; }
++.builder-modal-phone { width: 19rem; height: 34rem; margin: 1.5rem auto; }
++.builder-modal-phone .preview-path { height: 18rem; }
++.builder-history-list { color: var(--muted); line-height: 1.8; padding-left: 1.5rem; }
++.builder-history-list li { padding: .6rem 0; }
++.builder-field [aria-invalid=true] { border-color: var(--terra); }
++.builder-tag { max-width: 100%; overflow-wrap: anywhere; }
++.builder-footer .primary-button { min-width: 0; }

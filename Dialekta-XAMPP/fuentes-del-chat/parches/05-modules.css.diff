@@ -1,0 +1,10 @@
+@@ -243,3 +243,3 @@
+ .module-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+-.module-cell { display: flex; align-items: center; gap: .65rem; }
++#modules-table td.module-cell { display: table-cell; vertical-align: middle; }
+ .module-cell .module-thumbnail { margin-left: 0; }
+@@ -286,2 +286,4 @@
+ .module-progress.amber span, .module-progress.amber i { background: #cb8c4c; }
++.module-progress.review span { background: #cb8c4c; width: 75%; }
++.module-progress.draft span { width: 35%; }
+ .module-progress.draft span, .module-progress.draft i { background: #aa8b7d; }

@@ -1,0 +1,16 @@
+@@ -166,2 +166,3 @@
+     $('[data-check="art"] small').textContent = state.cover ? 'Ilustración e icono seleccionados' : 'Falta ilustración de portada';
++    if ($('#practice-created-count')) $('#practice-created-count').textContent = `${state.practiceCount} creados`;
+   }
+@@ -178,2 +179,11 @@
+       button.querySelector('small').textContent = `PASO ${String(stepNumber).padStart(2, '0')}${current ? ' · EN CURSO' : stepNumber < state.step ? ' · COMPLETADO' : ''}`;
++      if (state.step === 3 && stepNumber === 3) {
++        const label = button.querySelector('small');
++        label.textContent = 'ACTIVO ';
++        const count = document.createElement('span');
++        count.id = 'practice-created-count';
++        count.className = 'practice-step-count';
++        count.textContent = `${state.practiceCount} creados`;
++        label.append(count);
++      }
+       button.querySelector('.builder-step-number').innerHTML = stepNumber < state.step ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>' : current && state.step === 2 ? '<svg aria-hidden="true"><use href="#i-audio"/></svg>' : String(stepNumber);

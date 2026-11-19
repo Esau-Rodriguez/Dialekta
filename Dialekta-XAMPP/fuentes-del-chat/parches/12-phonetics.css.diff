@@ -1,0 +1,10 @@
+@@ -1,2 +1,4 @@
+ /* Paso 2: cuatro secciones en una sola pantalla con desplazamiento vertical. */
++.builder-view.is-phonetics { max-width:62rem; margin-left:.5rem; margin-top:-.9rem; }
++.builder-view.is-phonetics .builder-stepper { padding:.45rem .85rem; }
+ .builder-view.is-phonetics .builder-layout { grid-template-columns:minmax(0,2.08fr) minmax(0,1fr); gap:1.7rem; }
+@@ -7,3 +9,3 @@
+ .builder-view.is-phonetics .builder-step.is-complete small { color:var(--forest); font-weight:600; }
+-.builder-view.is-phonetics .builder-header { margin-bottom:1.8rem; }
++.builder-view.is-phonetics .builder-header { margin-bottom:1.35rem; }
+ .builder-view.is-phonetics .builder-header h1 { font-size:2rem; }

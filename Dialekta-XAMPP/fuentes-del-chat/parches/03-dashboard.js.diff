@@ -1,0 +1,41 @@
+@@ -34,10 +34,32 @@
+   ];
+-  const modules = [
+-    { title: 'Primeras palabras en Tutunakú', description: 'Un primer acercamiento a los saludos, las presentaciones y nuestra lengua.', status: 'Publicado', lessons: 12, icon: 'book', theme: 'coral' },
+-    { title: 'Mi familia y mi comunidad', description: 'Vínculos, personas y lugares que dan vida a nuestra comunidad.', status: 'Publicado', lessons: 10, icon: 'users', theme: 'mint' },
+-    { title: 'Los sonidos de nuestra lengua', description: 'Reconocimiento sonoro y actividades de escucha con audio nativo.', status: 'Publicado', lessons: 14, icon: 'audio', theme: 'amber' },
+-    { title: 'Naturaleza y territorio', description: 'Aprende sobre el entorno, las plantas y los animales de nuestra región.', status: 'Publicado', lessons: 9, icon: 'folder', theme: 'mint' },
+-    { title: 'Historias de nuestros abuelos', description: 'Una colección de relatos y memoria oral para las nuevas generaciones.', status: 'Borrador', lessons: 6, icon: 'book', theme: 'coral' },
+-    { title: 'Tradiciones y celebraciones', description: 'Material didáctico sobre el patrimonio cultural de la comunidad.', status: 'Borrador', lessons: 8, icon: 'rocket', theme: 'amber' }
+-  ];
++  const MODULES_KEY = 'dialekta-custom-modules-v1';
++  const moduleSeeds = [
++    { title: 'Saludos y Cortesía Tutunakú', level: 'A1', description: 'Fundamentos de interacción cotidiana: fórmulas de saludo, presentación y cortesía en la comunidad.', vocabulary: '6 Unidades fonéticas', status: 'Publicado', lessons: 8, created: '2025-01-12', updated: '14 Feb 2025', thumb: 1 },
++    { title: 'El Maíz y la Siembra Sagrada', level: 'A1', description: 'Vocabulario de la milpa tutunakú (kúxi), ciclos lunares y saberes de la siembra.', vocabulary: 'Léxico agroecológico', status: 'Publicado', lessons: 12, created: '2025-01-20', updated: '08 Feb 2025', thumb: 2 },
++    { title: 'La Casa y la Familia', level: 'A2', description: 'Construcción de vínculos de parentesco, espacios del hogar y estructuras posesivas.', vocabulary: 'Estructuras posesivas', status: 'En revisión', lessons: 10, created: '2025-02-03', updated: 'Ayer, 18:30', thumb: 3 },
++    { title: 'Danza de los Voladores y Tradiciones', level: 'B1', description: 'Cosmovisión, cantos sagrados del Caporal, memoria y tradiciones de nuestro pueblo.', vocabulary: 'Narrativa y tiempos verbales', status: 'Publicado', lessons: 15, created: '2025-01-10', updated: '01 Feb 2025', thumb: 4 },
++    { title: 'Fonética Costera', level: 'A1', description: 'Diferencias glotales y oclusivas de la variante costa: escucha y reconocimiento sonoro.', vocabulary: 'Variación dialectal', status: 'Borrador', lessons: 6, created: '2025-02-14', updated: 'Hoy, 09:15', thumb: 5 },
++    { title: 'Números y Colores', level: 'A1', description: 'Cantidades, colores y relaciones para describir los objetos de la vida diaria.', vocabulary: 'Numeración y descripción', status: 'Publicado', lessons: 7, created: '2025-01-16', updated: '10 Feb 2025', thumb: 1 },
++    { title: 'Los Animales de Nuestro Entorno', level: 'A1', description: 'Vocabulario de los animales y su relación con el territorio de la comunidad.', vocabulary: 'Fauna y naturaleza', status: 'Publicado', lessons: 8, created: '2025-01-19', updated: '09 Feb 2025', thumb: 2 },
++    { title: 'Cocina y Saberes de la Tierra', level: 'A2', description: 'Ingredientes, alimentos y prácticas de cocina transmitidas entre generaciones.', vocabulary: 'Alimentación y procesos', status: 'Publicado', lessons: 6, created: '2025-01-23', updated: '11 Feb 2025', thumb: 3 },
++    { title: 'Oficios de Nuestra Comunidad', level: 'A2', description: 'Oficios y actividades cotidianas que sostienen la vida de nuestra comunidad.', vocabulary: 'Acciones y ocupaciones', status: 'Publicado', lessons: 5, created: '2025-01-28', updated: '12 Feb 2025', thumb: 4 },
++    { title: 'Caminos y Lugares de la Región', level: 'A2', description: 'Orientaciones, recorridos y lugares significativos del territorio Totonaca.', vocabulary: 'Territorio y orientación', status: 'Publicado', lessons: 7, created: '2025-02-01', updated: '13 Feb 2025', thumb: 3 },
++    { title: 'Relatos de Nuestros Abuelos', level: 'B1', description: 'Comprensión y narración a partir de historias y memorias de nuestros mayores.', vocabulary: 'Memoria oral y narración', status: 'En revisión', lessons: 4, created: '2025-02-06', updated: 'Ayer, 16:20', thumb: 4 },
++    { title: 'Nuestra Lengua en el Futuro', level: 'B1', description: 'Conversaciones sobre la preservación de la lengua y su uso entre nuevas generaciones.', vocabulary: 'Diálogo y reflexión', status: 'Borrador', lessons: 6, created: '2025-02-10', updated: 'Hoy, 08:45', thumb: 5 }
++  ].map((item, index) => ({ ...item, id: `seed-${index + 1}`, icon: 'book', theme: 'coral' }));
++  function validCustomModule(item) {
++    return item && typeof item.id === 'string' && item.id.startsWith('custom-') &&
++      typeof item.title === 'string' && item.title.trim().length > 0 && item.title.length <= 100 &&
++      typeof item.description === 'string' && item.description.trim().length > 0 && item.description.length <= 400 &&
++      typeof item.vocabulary === 'string' && item.vocabulary.length <= 120 &&
++      ['A1', 'A2', 'B1'].includes(item.level) && ['Publicado', 'En revisión', 'Borrador'].includes(item.status) &&
++      Number.isInteger(item.lessons) && item.lessons >= 0 && item.lessons <= 100 &&
++      typeof item.created === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(item.created) && !Number.isNaN(Date.parse(item.created));
++  }
++  let customModules = [];
++  try {
++    const stored = JSON.parse(localStorage.getItem(MODULES_KEY) || '[]');
++    if (Array.isArray(stored)) customModules = stored.filter(validCustomModule).map(item => ({ ...item, updated: formatModuleDate(item.created), thumb: 1, icon: 'book', theme: 'coral' }));
++  } catch { /* A damaged or unavailable local catalog falls back to the sample data. */ }
++  const modules = [...moduleSeeds, ...customModules];
+   const lessons = [

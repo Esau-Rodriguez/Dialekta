@@ -1,0 +1,12 @@
+@@ -111,2 +111,7 @@
+     $('#digest').checked = preferences.digest !== false;
++    $('#review-notification').hidden = preferences.digest === false;
++    const unread = $('#notifications').classList.contains('read') ? 0 : (preferences.digest === false ? 2 : 3);
++    $('#notification-count').textContent = unread;
++    $('#notification-count').hidden = unread === 0;
++    $('#notifications-button').setAttribute('aria-label', unread ? `Notificaciones, ${unread} sin leer` : 'Notificaciones, todas leídas');
+   }
+@@ -170,2 +175,3 @@
+   $('.sidebar-backdrop').addEventListener('click', closeSidebar);
++  $$('.nav-link, .brand').forEach(link => link.addEventListener('click', closeSidebar));
+   document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeSidebar(); $('#notifications').hidden = true; $('#notifications-button').setAttribute('aria-expanded', 'false'); } });

@@ -1,0 +1,10 @@
+@@ -93,3 +93,3 @@
+ .preview-module-heading>small { font-size: .62rem; letter-spacing: .3px; }
+-.preview-module-heading h3 { margin: .2rem 0 .45rem; font-size: 1.15rem; line-height: 1.1; color: #fff; overflow-wrap: anywhere; }
++.preview-module-heading h3 { margin: .2rem 0 .45rem; font-size: 1.15rem; line-height: 1.1; color: inherit; overflow-wrap: anywhere; }
+ .preview-module-heading p { font-size: .7rem; line-height: 1.3; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@@ -163,3 +163,3 @@
+   .builder-header-actions { gap: .45rem; }
+-  .builder-header-actions button { font-size: .7rem; padding: .8rem .6rem; }
++  .builder-header-actions button { font-size: .82rem; padding: .8rem 1rem; }
+   .builder-header { gap: .6rem; }

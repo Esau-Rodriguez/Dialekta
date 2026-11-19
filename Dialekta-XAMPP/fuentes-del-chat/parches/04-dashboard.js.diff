@@ -1,0 +1,115 @@
+@@ -96,10 +96,110 @@
+     const isModule = type === 'module';
+-    return `<article class="panel resource-card"><div class="metric-icon ${item.theme || 'amber'}">${icon(item.icon)}</div><h2>${item.title}</h2><p>${item.description}</p><span class="pill ${item.status === 'Publicado' ? 'published' : ''}">${item.status}</span><div class="resource-footer"><span>${isModule ? item.lessons + ' lecciones' : item.duration + ' · Audio nativo'}</span><button class="text-button" data-detail="${type}" data-index="${index}">Ver ${isModule ? 'módulo' : 'lección'}</button></div></article>`;
++    return `<article class="panel resource-card"><div class="metric-icon ${item.theme || 'amber'}">${icon(item.icon)}</div><h2>${escapeHTML(item.title)}</h2><p>${escapeHTML(item.description)}</p><span class="pill ${item.status === 'Publicado' ? 'published' : ''}">${escapeHTML(item.status)}</span><div class="resource-footer"><span>${isModule ? item.lessons + ' lecciones' : item.duration + ' · Audio nativo'}</span><button class="text-button" data-detail="${type}" data-index="${index}">Ver ${isModule ? 'módulo' : 'lección'}</button></div></article>`;
++  }
++  const MODULE_PAGE_SIZE = 5;
++  const levelLabels = { A1: 'Inicial', A2: 'Básico', B1: 'Intermedio' };
++  let modulePage = 1;
++  let alphabeticalModules = false;
++  function formatModuleDate(isoDate) {
++    const date = new Date(`${isoDate}T12:00:00Z`);
++    if (Number.isNaN(date.getTime())) return 'Sin fecha';
++    const month = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'][date.getUTCMonth()];
++    return `${String(date.getUTCDate()).padStart(2, '0')} ${month} ${date.getUTCFullYear()}`;
+   }
++  function filteredModules() {
++    const status = $('#module-filter').value;
++    const level = $('#module-level-filter').value;
++    const query = normalized($('#module-search').value.trim());
++    const items = modules.filter(item => (status === 'all' || item.status === status) &&
++      (level === 'all' || item.level === level) &&
++      normalized(`${item.title} ${item.description} ${item.vocabulary} ${item.level} ${levelLabels[item.level]}`).includes(query));
++    return alphabeticalModules ? items.sort((a, b) => a.title.localeCompare(b.title, 'es')) : items;
++  }
+   function renderModules() {
+-    const filter = $('#module-filter').value;
+-    $('#modules-grid').innerHTML = modules.map((item, index) => filter === 'all' || filter === item.status ? resourceCard(item, 'module', index) : '').join('');
++    const items = filteredModules();
++    const pageCount = Math.max(1, Math.ceil(items.length / MODULE_PAGE_SIZE));
++    modulePage = Math.min(Math.max(1, modulePage), pageCount);
++    const pageItems = items.slice((modulePage - 1) * MODULE_PAGE_SIZE, modulePage * MODULE_PAGE_SIZE);
++    $('#modules-table-body').innerHTML = pageItems.length ? pageItems.map(item => {
++      const index = modules.indexOf(item);
++      const stateClass = item.status === 'Publicado' ? 'published' : item.status === 'En revisión' ? 'review' : 'draft';
++      return `<tr class="module-row"><td class="module-order-cell"><span class="order-pill">#${index + 1}</span><img class="module-thumbnail" src="assets/module-${item.thumb}.svg" width="36" height="36" alt=""></td><td class="module-cell"><div class="module-info"><button class="module-title" data-detail="module" data-index="${index}">${escapeHTML(item.title)}</button><div class="module-meta"><span class="level-badge level-${item.level.toLowerCase()}">Nivel ${item.level} ${levelLabels[item.level]}</span><span class="module-keywords">· ${escapeHTML(item.vocabulary)}</span></div></div></td><td class="module-description"><span title="${escapeHTML(item.description)}">${escapeHTML(item.description)}</span></td><td><span class="module-lesson-count">${item.lessons} ${item.lessons === 1 ? 'lección' : 'lecciones'}</span><div class="module-progress ${stateClass}" aria-hidden="true"><span></span></div></td><td><span class="module-status ${stateClass}">${item.status}</span></td><td class="module-dates"><span>Creado: ${formatModuleDate(item.created)}</span><span>Act: ${escapeHTML(item.updated)}</span></td></tr>`;
++    }).join('') : '<tr><td colspan="6"><div class="empty-state"><strong>No hay módulos que coincidan.</strong><br>Prueba otra palabra o cambia los filtros.</div></td></tr>';
++    $('#module-stat-total').textContent = modules.length;
++    const lessonTotal = modules.reduce((sum, item) => sum + item.lessons, 0);
++    $('#module-stat-lessons').textContent = lessonTotal;
++    $('#module-stat-active').textContent = `${modules.filter(item => item.status === 'Publicado').length} activos en producción`;
++    $('#module-stat-average').textContent = `~${(lessonTotal / modules.length).toFixed(1)} por módulo`;
++    $('#module-stat-pending').textContent = modules.filter(item => item.status === 'En revisión').length;
++    $('#module-page-summary').textContent = `Mostrando ${pageItems.length} de ${items.length} módulos · Página ${modulePage} de ${pageCount}`;
++    const pageButtons = Array.from({ length: pageCount }, (_, index) => `<button type="button" data-module-page="${index + 1}" aria-label="Página ${index + 1}"${index + 1 === modulePage ? ' aria-current="page"' : ''}>${index + 1}</button>`).join('');
++    $('#module-pagination').innerHTML = `<button type="button" data-module-page="${modulePage - 1}" aria-label="Página anterior" ${modulePage === 1 ? 'disabled' : ''}>‹</button>${pageButtons}<button type="button" data-module-page="${modulePage + 1}" aria-label="Página siguiente" ${modulePage === pageCount ? 'disabled' : ''}>›</button>`;
+   }
+   renderModules();
+-  $('#module-filter').addEventListener('change', renderModules);
++  for (const selector of ['#module-filter', '#module-level-filter', '#module-search']) {
++    $(selector).addEventListener(selector === '#module-search' ? 'input' : 'change', () => { modulePage = 1; renderModules(); });
++  }
++  $('#module-sort').addEventListener('click', () => {
++    alphabeticalModules = !alphabeticalModules;
++    $('#module-sort').setAttribute('aria-pressed', String(alphabeticalModules));
++    $('#module-sort').textContent = alphabeticalModules ? '↕ Título A–Z' : '↕ Ordenar';
++    modulePage = 1;
++    renderModules();
++  });
++  $('#module-pagination').addEventListener('click', event => {
++    const button = event.target.closest('[data-module-page]');
++    if (!button || button.disabled) return;
++    modulePage = Number(button.dataset.modulePage);
++    renderModules();
++    // Re-render replaces buttons; retain keyboard focus on the new active page.
++    $('#module-pagination [aria-current="page"]').focus({ preventScroll: true });
++  });
++
++  const createModuleDialog = $('#create-module-dialog');
++  const createModuleForm = $('#create-module-form');
++  $('#create-module').addEventListener('click', () => {
++    createModuleForm.reset();
++    $('#module-form-feedback').hidden = true;
++    createModuleForm.querySelectorAll('[aria-invalid]').forEach(input => input.removeAttribute('aria-invalid'));
++    createModuleDialog.showModal();
++  });
++  for (const selector of ['#cancel-create-module', '#close-create-module']) $(selector).addEventListener('click', () => createModuleDialog.close());
++  createModuleForm.addEventListener('submit', event => {
++    event.preventDefault();
++    if (!createModuleForm.reportValidity()) return;
++    const values = new FormData(createModuleForm);
++    const title = String(values.get('title')).trim();
++    const description = String(values.get('description')).trim();
++    const feedback = $('#module-form-feedback');
++    const fail = (message, name) => {
++      feedback.textContent = message;
++      feedback.hidden = false;
++      if (name) { createModuleForm.elements.namedItem(name).setAttribute('aria-invalid', 'true'); createModuleForm.elements.namedItem(name).focus(); }
++    };
++    if (!title) { fail('Escribe el título del módulo.', 'title'); return; }
++    if (!description) { fail('Escribe una descripción pedagógica.', 'description'); return; }
++    const now = new Date();
++    const localDate = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Mexico_City' }).format(now);
++    const item = { id: `custom-${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`, title,
++      level: String(values.get('level')), description, vocabulary: String(values.get('vocabulary') || '').trim(),
++      lessons: Number(values.get('lessons')), status: String(values.get('status')), created: localDate,
++      updated: formatModuleDate(localDate), thumb: 1, icon: 'book', theme: 'coral' };
++    if (!validCustomModule(item)) { fail('Revisa los datos. Las lecciones deben ser un número entero entre 0 y 100.'); return; }
++    try { localStorage.setItem(MODULES_KEY, JSON.stringify([...customModules, item])); }
++    catch { fail('El navegador no pudo guardar el módulo. Permite el almacenamiento local y vuelve a intentarlo.'); return; }
++    customModules.push(item);
++    modules.push(item);
++    $('#module-filter').value = 'all';
++    $('#module-level-filter').value = 'all';
++    $('#module-search').value = '';
++    alphabeticalModules = false;
++    $('#module-sort').setAttribute('aria-pressed', 'false');
++    $('#module-sort').textContent = '↕ Ordenar';
++    modulePage = Math.ceil(modules.length / MODULE_PAGE_SIZE);
++    renderModules();
++    createModuleDialog.close();
++    showToast('Módulo creado y guardado en este navegador.');
++    $(`#modules-table-body [data-index="${modules.length - 1}"]`).focus({ preventScroll: true });
++  });
++  createModuleForm.addEventListener('input', event => event.target.removeAttribute('aria-invalid'));
+   $('#lessons-grid').innerHTML = lessons.map((item, index) => resourceCard(item, 'lesson', index)).join('');

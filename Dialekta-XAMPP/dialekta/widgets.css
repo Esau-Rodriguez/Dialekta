@@ -1,0 +1,5 @@
+.lessons-tool{margin:1rem 0;padding:1rem;border:1px solid #eedbd3;border-radius:12px;background:white;color:#30231d}
+.lessons-tool ol{padding-left:1.5rem}.lessons-tool li{padding:.45rem 0;border-bottom:1px solid #f0e5df}.lessons-tool li span{display:inline-block;min-width:min(17rem,90%);margin-right:.5rem}
+.lessons-tool button,.lesson-dialog button,.media-tool button{border:1px solid #dccac2;background:white;border-radius:.45rem;color:#7b3229;padding:.4rem .65rem;cursor:pointer;margin:.15rem}
+.lesson-dialog{border:0;border-radius:14px;width:min(32rem,90vw);padding:1.6rem;color:#30231d}.lesson-dialog::backdrop{background:#14271fd1}.lesson-dialog label{display:block;margin:1rem 0}.lesson-dialog input,.lesson-dialog textarea{display:block;width:100%;box-sizing:border-box;margin-top:.3rem;padding:.6rem;border:1px solid #d9c4bb;border-radius:.4rem}.lesson-dialog footer{text-align:right}
+.media-tool{display:grid;gap:.45rem;margin:.75rem 0}.media-tool img{max-width:100%;max-height:160px;object-fit:contain}.media-tool audio{max-width:100%}.media-tool input{max-width:100%}.media-tool progress{width:100%}

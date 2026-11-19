@@ -1,0 +1,20 @@
+@@ -259,3 +259,3 @@
+ .module-title:hover { color: var(--terra); text-decoration: underline; text-underline-offset: 2px; }
+-.module-meta { display: flex; align-items: center; flex-wrap: wrap; gap: .2rem; margin-top: .35rem; line-height: 1.35; }
++.module-meta { display: flex; align-items: flex-start; gap: .2rem; margin-top: .35rem; line-height: 1.35; }
+ .level-badge {
+@@ -269,2 +269,4 @@
+   line-height: 1.4;
++  max-width: 55%;
++  flex-shrink: 0;
+ }
+@@ -272,3 +274,3 @@
+ .level-badge.b1 { color: #7b481d; background: #ffddb6; }
+-.module-keywords { color: #876f63; font-size: .64rem; }
++.module-keywords { color: #876f63; font-size: .64rem; min-width: 0; flex: 1; }
+ .module-description { color: #85695d; font-size: .91rem; }
+@@ -383,2 +385,4 @@
+   .module-stat { min-height: 11.2rem; }
++  .module-stat-grid { align-items: start; }
++  .module-stat:first-child { min-height: 12.7rem; }
+   #modules-table td { height: 4.75rem; }
